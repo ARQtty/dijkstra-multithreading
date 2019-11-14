@@ -29,9 +29,9 @@ int main(){
 
     vector<int> closest_dists_sync;
     int from = 0;
-    timer.log_time("Start dijkstra sync");
-    dijkstra_sync(adj_list, from, closest_dists_sync);
-    timer.log_time("Finish dijkstra sync");
+//    timer.log_time("Start dijkstra sync");
+//    dijkstra_sync(adj_list, from, closest_dists_sync);
+//    timer.log_time("Finish dijkstra sync");
 
 
     vector<int> closest_dists_async;
@@ -40,13 +40,7 @@ int main(){
     timer.log_time("Finish dijkstra async");
 
 
-    int mismatches = 0;
-    for (int i=0; i<closest_dists_async.size(); i++){
-        if (closest_dists_async[i] != closest_dists_sync[i]){
-            mismatches++;
-        }
-    }
-    cout << "Found " << mismatches << " mismatches";
+    cout << "Kernels: " << thread::hardware_concurrency() << endl;
 
     return 0;
 }

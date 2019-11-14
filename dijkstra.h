@@ -90,6 +90,23 @@ void search_min(vector<int>& array, vector<bool>& conditional, int& min_dist){
 }
 
 
+void relax_from_v_sync(const vector<vector<pair<int, int>>>& adj_list, int relax_v, vector<int>& dists){
+    int to, weight;
+    for (int j=0; j<adj_list[relax_v].size(); j++){
+        to = adj_list[relax_v][j].first;
+        weight = adj_list[relax_v][j].second;
+        if (dists[relax_v] + weight < dists[to]){
+            // Relax
+            dists[to] = dists[relax_v] + weight;
+        }
+    }
+}
+void relax_from_v_async(const vector<vector<pair<int, int>>>& adj_list, int relax_v, vector<int>& dists){
+    
+}
+
+
+
 void dijkstra_async(const vector<vector<pair<int, int>>>& adj_list, int from, vector<int>& dists, Timer& measure_min){
     int vs = adj_list.size();
     dists.assign(vs, MAX_INT);
@@ -111,15 +128,7 @@ void dijkstra_async(const vector<vector<pair<int, int>>>& adj_list, int from, ve
 
         used[curr_v] = true;
 
-        int to, weight;
-        // Search least path
-        for (int j=0; j<adj_list[curr_v].size(); j++){
-            to = adj_list[curr_v][j].first;
-            weight = adj_list[curr_v][j].second;
-            if (dists[curr_v] + weight < dists[to]){
-                // Relax
-                dists[to] = dists[curr_v] + weight;
-            }
-        }
+        // Relaxing from current vertex
+        relax_from_v_sync(adj_list, curr_v, dists);
     }
 }
